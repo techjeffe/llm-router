@@ -1,0 +1,45 @@
+# Continue config that routes through the local LLM Router Proxy.
+#
+# The proxy at localhost:5555 decides whether to use:
+#   - local Ollama qwen3-coder:30b
+#   - or an OpenRouter-hosted fallback model
+#
+# The goal is to keep most coding requests local and only escalate when
+# the request needs tool use, more context, or stronger reasoning.
+
+name: Jeff's Local-First Router
+version: 1.0.0
+schema: v1
+
+models:
+  - name: Auto Router
+    provider: openai
+    apiBase: http://localhost:5555/v1
+    model: llm-router
+    apiKey: "not-needed"
+    roles:
+      - chat
+      - edit
+      - apply
+    capabilities:
+      - tool_use
+    defaultCompletionOptions:
+      contextLength: 200000
+      temperature: 0.2
+
+  - name: Auto Router (Autocomplete)
+    provider: openai
+    apiBase: http://localhost:5555/v1
+    model: llm-router-autocomplete
+    apiKey: "not-needed"
+    roles:
+      - autocomplete
+    autocompleteOptions:
+      debounceDelay: 150
+      maxPromptTokens: 4096
+
+  - name: Ollama Embeddings
+    provider: ollama
+    model: nomic-embed-text
+    roles:
+      - embed

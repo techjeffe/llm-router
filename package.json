@@ -1,0 +1,12 @@
+{
+  "name": "llm-router",
+  "version": "1.0.0",
+  "description": "Local-first OpenAI-compatible routing proxy for Ollama and OpenRouter",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["llm", "proxy", "ollama", "openrouter", "continue", "openai-compatible"],
+  "license": "MIT"
+}
